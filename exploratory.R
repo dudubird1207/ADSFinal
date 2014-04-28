@@ -3,7 +3,7 @@ library(ggplot2)
 library(lattice)
 library(lubridate)
 
-load("jobs.RData")
+load("jobs.RDa")
 
 jobs <- cbind(jobs[,1:9],
               salary_range = jobs$salary_range_to - jobs$salary_range_from,
@@ -14,12 +14,16 @@ table(jobs$salary_frequency)
 table(jobs$X__of_positions)
 table(year(jobs$posting_date))
 
-
 names(jobs)
 ggplot(jobs[jobs$salary_frequency=="Annual",],aes(x=hours_shift)) + geom_histogram()
 summary(density(jobs$hours_shift))
 str(jobs$hours_shift)
 length(unique(jobs$hours_shift))
+sum(is.na(jobs$hours_shift))
+sum(is.na(jobs$hours_shift) & jobs$salary_frequency=="Hourly")
+sum(jobs$salary_frequency=="Hourly")
+# missing values.... use multiple imputation?
+# first, need to write code to extract numbers from the text
 
 ggplot(jobs[jobs$salary_frequency=="Annual",], aes(x=salary_range)) + geom_histogram() + ggtitle("Salary Ranges, Annual Salaries")
 ggplot(jobs[jobs$salary_frequency=="Annual",], aes(x=salary_midpoint)) + geom_histogram() + ggtitle("Salary Midpoints, Annual Salaries")

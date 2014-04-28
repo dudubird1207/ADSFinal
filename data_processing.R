@@ -41,6 +41,9 @@ for(k in c("post_until","posting_date","posting_updated")){
   jobs[,k] <- mdy(jobs[,k])
 }
 
-save(jobs,file="jobs.RData")
+#--- Correctly code NA in strings ---#
+jobs$hours_shift[jobs$hours_shift=="NULL"] <- NA
+
+save(jobs,file="jobs.Rda")
 
 rm(list=ls()[!(ls() %in% .saveworkspace.data_processing.R)])
