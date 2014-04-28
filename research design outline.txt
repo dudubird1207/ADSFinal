@@ -1,0 +1,13 @@
+1. Build a word bag for each observation, B_i, and a corpus, C.
+
+1.5. Bin salary Y into K classes.
+
+2. From C, for every k, use the Prototypical Users (PU) model to choose the top proto-words X_k for each class Y_k.
+
+2.5. Covariate set X = X_1 U X_2 U ... U X_K, and X' = X U Z where Z is other features like post length, reading score, features of ZIP code, etc.
+
+3. Come up with a few models for Y (continuous) and Y_k (binned).
+
+3.5 Come up with a validation metric.
+
+4. Run each and sweep over K, then compare.
