@@ -11,6 +11,7 @@ jobs <- cbind(jobs[,1:9],
 
 table(jobs$salary_frequency)
 table(jobs$X__of_positions)
+table(year(jobs$posting_date))
 
 ggplot(jobs[jobs$salary_frequency=="Annual",], aes(x=salary_range)) + geom_histogram() + ggtitle("Salary Ranges, Annual Salaries")
 ggplot(jobs[jobs$salary_frequency=="Annual",], aes(x=salary_midpoint)) + geom_histogram() + ggtitle("Salary Midpoints, Annual Salaries")
