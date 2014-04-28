@@ -1,5 +1,6 @@
 set.seed(6)
 
 N_obs <- dim(jobs)[1]
+ids <- seq(1,N_obs)
 test_ids <- sample( N_obs , N_obs %/% 4 )
-train_ids <- 
+train_ids <- ids[ !(ids %in% test_ids) ]
