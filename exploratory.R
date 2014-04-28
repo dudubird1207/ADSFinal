@@ -13,6 +13,13 @@ table(jobs$salary_frequency)
 table(jobs$X__of_positions)
 table(year(jobs$posting_date))
 
+
+names(jobs)
+ggplot(jobs[jobs$salary_frequency=="Annual",],aes(x=hours_shift)) + geom_histogram()
+summary(density(jobs$hours_shift))
+str(jobs$hours_shift)
+length(unique(jobs$hours_shift))
+
 ggplot(jobs[jobs$salary_frequency=="Annual",], aes(x=salary_range)) + geom_histogram() + ggtitle("Salary Ranges, Annual Salaries")
 ggplot(jobs[jobs$salary_frequency=="Annual",], aes(x=salary_midpoint)) + geom_histogram() + ggtitle("Salary Midpoints, Annual Salaries")
 ggplot(jobs[jobs$salary_frequency=="Annual",], aes(x=salary_range_from)) + geom_histogram() + ggtitle("Salary Midpoints, Annual Salaries")
