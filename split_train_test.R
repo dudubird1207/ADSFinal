@@ -1,3 +1,5 @@
+load("jobs")
+
 set.seed(6)
 
 N_obs <- dim(jobs)[1]
