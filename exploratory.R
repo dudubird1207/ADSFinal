@@ -3,12 +3,9 @@ library(ggplot2)
 library(lattice)
 library(lubridate)
 
+# system.time(source("data_processing.R"))
+# cat("Don't worry about the message '1403 failed to parse' - those are just mising values")
 load("jobs.RDa")
-
-jobs <- cbind(jobs[,1:9],
-              salary_range = jobs$salary_range_to - jobs$salary_range_from,
-              salary_midpoint = (jobs$salary_range_to + jobs$salary_range_from) / 2,
-              jobs[,10:25])
 
 table(jobs$salary_frequency)
 table(jobs$X__of_positions)
@@ -22,8 +19,6 @@ length(unique(jobs$hours_shift))
 sum(is.na(jobs$hours_shift))
 sum(is.na(jobs$hours_shift) & jobs$salary_frequency=="Hourly")
 sum(jobs$salary_frequency=="Hourly")
-# missing values.... use multiple imputation?
-# first, need to write code to extract numbers from the text
 
 ggplot(jobs[jobs$salary_frequency=="Annual",], aes(x=salary_range)) + geom_histogram() + ggtitle("Salary Ranges, Annual Salaries")
 ggplot(jobs[jobs$salary_frequency=="Annual",], aes(x=salary_midpoint)) + geom_histogram() + ggtitle("Salary Midpoints, Annual Salaries")
@@ -48,7 +43,7 @@ ggplot(jobs[jobs$salary_frequency=="Daily",], aes(x=salary_range)) + geom_histog
 ggplot(jobs[jobs$salary_frequency=="Daily",], aes(x=salary_midpoint)) + geom_histogram() + ggtitle("Salary Midpoints, Daily Salaries")
 ggplot(jobs[jobs$salary_frequency=="Daily",], aes(x=salary_midpoint,y=salary_range)) + geom_point() + ggtitle("Daily Salaries")
 
-# bullet points in description
+# bullet points in description => complexity?
 sum(grepl("Ã¢â‚¬Â¢",jobs$job_description,fixed=T))/1658
 
 # interesting stuff in here...
