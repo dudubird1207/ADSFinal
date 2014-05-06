@@ -1,5 +1,16 @@
 # PLEASE READ!!
 
+### Pipeline
+```
+data_processing.R
+(optional) exploratory.R
+VariableConstruction.R
+(any other pre-processing at the document level)
+split_train_test.R
+("master" model fitting script that calls a script for each model)
+("master" script for )
+```
+
 ### Notation
 From `code_skeleton.R`:
 ```
@@ -33,9 +44,33 @@ kappa_k,g 			= word frequency within topic k at level g of Z
 
 ### Variable names
 For data frame `jobs`
+
+Y
 ```
-salary 				= midpoint of salary, our dependent variable Y
-???					= ???
+salary 					= midpoint of salary, our dependent variable Y
+```
+
+X
+```
+agency.bin				= Agency
+level.bin				= Level
+```
+
+Z
+```
+agency.bin				= Agency
+level.bin				= Level
+```
+
+U
+```
+posting_type			= Posting type
+X__of_position			= Number of positions
+level.bin				= Level
+work_location			= Locations
+residency_requirement	= Residency request
+length_text				= Length of text
+reading_score			= Reading score
 ```
 
 ### Research design
