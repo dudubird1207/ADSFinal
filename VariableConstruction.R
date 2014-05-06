@@ -1,6 +1,7 @@
 ####----Variable Construction----####
 
 load("jobs.Rda")
+getwd()
 
 #library(tm)
 #library(topicmodels)
@@ -45,6 +46,7 @@ table(jobs$agency.bin)
 jobs$agency.bin<-as.factor(jobs$agency.bin)
 
 ##bin the level variable
+
 jobs$level.bin<-NA
 jobs$level.bin[jobs$level=="00" | jobs$level=="01" |jobs$level=="02" |jobs$level=="03" |jobs$level=="04" ]="entry"
 jobs$level.bin[jobs$level=="M1" |jobs$level=="M2" |jobs$level=="M3" |jobs$level=="M4" |jobs$level=="M5" |jobs$level=="M6" |jobs$level=="M7"]="manager"
@@ -53,4 +55,36 @@ jobs$level.bin[jobs$level=="4A" |jobs$level=="4B" |jobs$level=="3B" ]="chief"
 table(jobs$level.bin)
 jobs$level.bin<-as.factor(jobs$level.bin)
 
+#write.csv(jobs,file="jobs.csv")
+
 ##bin the residency requriement variable
+
+head(jobs$residency_requirement)
+index<-str_detect(jobs$residency_requirement,"(not|no)")
+jobs$residency.bin<-"required"
+jobs$residency.bin[index]<-"NotRequired"
+
+table(jobs$residency.bin)
+jobs$residency.bin<-as.factor(jobs$residency.bin)
+
+##geocode the addresses
+
+Online<-read.csv("./address/AddressOriginal.csv",header=T)
+gisZip<-read.csv("./address/gisZip.csv",header=T)
+gisBoro<-read.csv("./address/gisBoro.csv",header=T)
+
+##match records
+
+names(Online)
+Online$desc<-as.character(Online$desc)
+head(Online$desc)
+
+##extract the zip code info from the online geocodeing results
+x<-str_sub(Online$desc,nchar(Online$desc)-4,nchar(Online$desc))
+i<-str_detect(x,"[[:digit:]]{5}")
+x[!i]<-NA
+Online$zip<-x
+
+table(Online$zip)
+which(is.na(Online$zip))
+##match the 
