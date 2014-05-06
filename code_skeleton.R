@@ -17,6 +17,8 @@
 # T_i = imputed count of topics in doc i,
 # 			e.g. (T_i)_k = 10 means "topic k appears 10 times in doc i" 
 # X_i = prevalence covariates
+# G = number of levels of Z, when it is converted into a single factor
+# g(i) = level of Z for document i.
 # Z_i = content covariates
 # U_i = salary-specific covariates
 # beta = regression coefficients for X, Z, U, and T
@@ -24,24 +26,22 @@
 # mu = X' * gamma
 # kappa_0 = word frequency in the whole corpus
 # kappa_k = word frequency within topic k
-# kappa_i = word frequency within document i
-# kappa_k,i = word frequenchy within topic k within document i
-# G = number of levels of Z, when it is converted into a single factor
+# kappa_g = word frequency among all documents at level g of Z
+# kappa_k,g = word frequency within topic k at level g of Z
 
-
-#### RESEARCH DESIGN:
+# ### RESEARCH DESIGN:
 # 1. Split sample into training and test data (DONE - split_train_test.R)
 # 2. Clean the numerical data (DONE - data_processing.R)
 # 3. Clean the text data (DONE - )
 # 4. Determine variables for X, Z, and U (DONE - )
 # 5. Generate needed variables (DONE - )
 # 6. Estimate and plot criterion (internal? external?) as a function of K:
-#		-- LDA and regression ( - )
-#		-- STM and regression ( - )
-#		-- regSTM ( - )
+# 		-- LDA and regression ( - )
+# 		-- STM and regression ( - )
+# 		-- regSTM ( - )
 # 7. Cross-validate? Test on validation data?
 
-#### TO DO:
+# ### TO DO:
 # Standardize variable names
 # Standardize function arguments
 # Write model-fitting functions that take K as an argument

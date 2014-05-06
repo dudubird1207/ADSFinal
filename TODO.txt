@@ -1,1 +1,8 @@
-- build and run the models
+### TO DO:
+Standardize variable names
+Standardize function arguments
+Write model-fitting functions that take K as an argument
+Write a readme
+Decide on model selection criterion
+Decide on a prediction regime
+Compile a bibliography
