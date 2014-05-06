@@ -86,5 +86,12 @@ x[!i]<-NA
 Online$zip<-x
 
 table(Online$zip)
-which(is.na(Online$zip))
-##match the 
+length(which(is.na(Online$zip)))  #359
+
+##extract the zip code info from gis geocoding
+
+names(gisZip)
+class(gisZip$gisZip)
+unique(gisZip$gisZip)
+
+
