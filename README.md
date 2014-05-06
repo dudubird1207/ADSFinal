@@ -1,6 +1,6 @@
 # PLEASE READ!!
 
-### Notation and variable names
+### Notation
 From `code_skeleton.R`:
 ```
 Y 					= salary midpoint
@@ -29,6 +29,13 @@ kappa_0 			= word frequency in the whole corpus
 kappa_k 			= word frequency within topic k
 kappa_g 			= word frequency among all documents at level g of Z
 kappa_k,g 			= word frequency within topic k at level g of Z
+```
+
+### Variable names
+For data frame `jobs`
+```
+salary 				= midpoint of salary, our dependent variable Y
+???					= ???
 ```
 
 ### Research design
