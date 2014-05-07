@@ -108,3 +108,8 @@ sum(is.na(gisBoro$ARC_Zone))
 gisBoro$agency<-jobs$agency
 save(gisBoro,file="gisBoro.Rda")
 
+jobs$gisZip <- gisZip$gisZip
+jobs$gisBoro <- gisBoro$ARC_zone
+
+save(jobs,file="jobs.Rda")
+
