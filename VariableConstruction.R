@@ -67,6 +67,8 @@ jobs$residency.bin[index]<-"NotRequired"
 table(jobs$residency.bin)
 jobs$residency.bin<-as.factor(jobs$residency.bin)
 
+
+
 ##geocode the addresses
 
 Online<-read.csv("./address/AddressOriginal.csv",header=T)
@@ -111,5 +113,40 @@ save(gisBoro,file="gisBoro.Rda")
 jobs$gisZip <- gisZip$gisZip
 jobs$gisBoro <- gisBoro$ARC_Zone
 
+##reading score construction
+
+install.packages("koRpus")
+library("koRpus")
+jobs$text=paste(jobs$business_title,jobs$civil_service_title,jobs$division_work_unit,jobs$job_description,jobs$minimum_qual_requirements,jobs$preferred_skills)
+
+for (i in 1:length(jobs$text)){
+  writeLines(jobs$text[i], paste("texts/text",i,".txt", sep=""))
+}
+
+ll.files <-list.files("texts", pattern="*.txt", full.names=TRUE)
+ll.tagged <- lapply(ll.files, tokenize, lang="en")
+ll.gradelevel <- lapply(ll.tagged,flesch.kincaid)
+list_fk = lapply(ll.gradelevel, slot, "Flesch.Kincaid")
+grades = sapply(list_fk, "[[", "grade")
+
+jobs$reading_score=grades
+
+
+##text length construction
+
+word=strsplit(jobs$text," ")
+len=c()
+for (i in 1:1638) {len[i]=length(word[[i]])}
+
+##read the existed scoreLength data in 
+scoreLength<-read.csv("scoreLength.csv")
+names(scoreLength)
+
+jobs$length_text<-scoreLength$length_text
+jobs$reading_score<-scoreLength$reading_score
+
+##save our data
+names(jobs)
 save(jobs,file="jobs.Rda")
+
 
