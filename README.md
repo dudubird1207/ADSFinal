@@ -78,9 +78,9 @@ From `code_skeleton.R`:
 ```
 1. Split sample into training and test data (DONE - split_train_test.R)
 2. Clean the numerical data (DONE - data_processing.R)
-3. Clean the text data (DONE - )
-4. Determine variables for X, Z, and U (DONE - )
-5. Generate needed variables (DONE - )
+3. Clean the text data (DONE - Yiran's Code??)
+4. Determine variables for X, Z, and U (DONE)
+5. Generate needed variables (DONE - VariableConstruction.R)
 6. Estimate and plot criterion (internal? external?) as a function of K:
 		-- LDA and regression ( - )
 		-- STM and regression ( - )
