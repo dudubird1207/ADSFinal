@@ -6,9 +6,10 @@ data_processing.R
 (optional) exploratory.R
 VariableConstruction.R
 (any other pre-processing at the document level)
+fix_geocode_mising_data.R
 split_train_test.R
 ("master" model fitting script that calls a script for each model)
-("master" script for )
+("master" script for plotting KL divergence and RMSE for each model)
 ```
 
 ### Notation
