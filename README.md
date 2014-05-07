@@ -64,7 +64,7 @@ level.bin				= Level
 
 U
 ```
-X__of_position			= Number of positions
+posting_type			= Posting type ( boxplots show nothing... candidate for interaction? )
 level.bin				= Level
 work_location			= Locations
 residency_requirement	= Residency request
