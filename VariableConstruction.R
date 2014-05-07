@@ -93,5 +93,18 @@ length(which(is.na(Online$zip)))  #359
 names(gisZip)
 class(gisZip$gisZip)
 unique(gisZip$gisZip)
+sum(is.na(gisZip$gisZip))  #281
 
+gisZip$agency<-jobs$agency
+save(gisZip,file="gisZip.Rda")
+
+##extract the boro info from gis geocoding
+
+View(gisBoro)
+names(gisBoro)
+unique(gisBoro$ARC_Zone)
+sum(is.na(gisBoro$ARC_Zone))
+
+gisBoro$agency<-jobs$agency
+save(gisBoro,file="gisBoro.Rda")
 
