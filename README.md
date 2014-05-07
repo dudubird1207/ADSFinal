@@ -64,7 +64,6 @@ level.bin				= Level
 
 U
 ```
-posting_type			= Posting type
 X__of_position			= Number of positions
 level.bin				= Level
 work_location			= Locations
@@ -98,4 +97,5 @@ Write model-fitting functions that take K as an argument
 Write a readme
 Decide on model selection criterion
 Decide on a prediction regime
+Perplexity function
 ```

@@ -6,3 +6,4 @@ Write a readme
 Decide on model selection criterion
 Decide on a prediction regime
 Compile a bibliography
+Perplexity function
