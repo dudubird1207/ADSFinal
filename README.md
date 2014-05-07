@@ -2,12 +2,11 @@
 
 ### Pipeline
 ```
-data_processing.R
-(optional) exploratory.R
-VariableConstruction.R
-(any other pre-processing at the document level)
-fix_geocode_mising_data.R
-split_train_test.R
+data_processing.R > jobs.Rda
+(optional) exploratory.R > jobs.Rda
+VariableConstruction.R > jobs.Rda
+fix_geocode_mising_data.R > jobs.Rda
+split_train_test.R > jobs.RData
 ("master" model fitting script that calls a script for each model)
 ("master" script for plotting KL divergence and RMSE for each model)
 ```
@@ -65,7 +64,6 @@ level.bin				= Level
 
 U
 ```
-posting_type			= Posting type
 X__of_position			= Number of positions
 level.bin				= Level
 work_location			= Locations
@@ -79,9 +77,9 @@ From `code_skeleton.R`:
 ```
 1. Split sample into training and test data (DONE - split_train_test.R)
 2. Clean the numerical data (DONE - data_processing.R)
-3. Clean the text data (DONE - )
-4. Determine variables for X, Z, and U (DONE - )
-5. Generate needed variables (DONE - )
+3. Clean the text data (DONE - Yiran's Code??)
+4. Determine variables for X, Z, and U (DONE)
+5. Generate needed variables (DONE - VariableConstruction.R)
 6. Estimate and plot criterion (internal? external?) as a function of K:
 		-- LDA and regression ( - )
 		-- STM and regression ( - )
@@ -99,4 +97,5 @@ Write model-fitting functions that take K as an argument
 Write a readme
 Decide on model selection criterion
 Decide on a prediction regime
+Perplexity function
 ```
