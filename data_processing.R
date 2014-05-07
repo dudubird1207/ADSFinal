@@ -96,6 +96,8 @@ jobs$hours_week[which(jobs$hours_week==0)] <- 40
 sum(jobs$hours_week==0,na.rm=T)
 # wow what a mess
 
+jobs$work_location[jobs$work_location == "Not Used"] <- NA
+
 #--- Convert all salaries to annual ---#
 cat("Convert all salaries to annual...")
 

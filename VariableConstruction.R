@@ -109,7 +109,7 @@ gisBoro$agency<-jobs$agency
 save(gisBoro,file="gisBoro.Rda")
 
 jobs$gisZip <- gisZip$gisZip
-jobs$gisBoro <- gisBoro$ARC_zone
+jobs$gisBoro <- gisBoro$ARC_Zone
 
 save(jobs,file="jobs.Rda")
 
