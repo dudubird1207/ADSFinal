@@ -21,3 +21,5 @@ jobs$gisBoro <- factor(jobs$gisBoro)
 
 unique(jobs$gisZip)
 
+save(jobs,file="jobs.Rda")
+
