@@ -53,6 +53,15 @@ jobs <- cbind(jobs[,1:9],
 #--- Clean the data ---#
 cat("Clean the data")
 
+# jobs2 <- jobs
+# jobs2$posting_type <- NULL
+# nrow(unique(jobs2))
+# length(unique(jobs$job_id))
+# 
+# jobs2 <- unique(jobs2)
+# 
+# View(jobs2[which(duplicated(jobs2$job_id)),])
+
 # Correctly code NA in strings
 sapply(jobs,`%in%`,x="NULL")
 system.time(for(i in seq_len(nrow(jobs))){
@@ -127,6 +136,8 @@ jobs[jobs$salary_frequency==freq,] <- within(jobs[jobs$salary_frequency==freq,],
 jobs$annual_salary_midpoint <- (jobs$annual_salary_upper + jobs$annual_salary_lower) /2
 jobs$annual_salary_range <- jobs$annual_salary_upper - jobs$annual_salary_lower
 jobs$salary <- jobs$annual_salary_midpoint # to save typing later!
+
+
 
 cat("save data frame `jobs` to jobs.RDa")
 save(jobs,file="jobs.RDa")
