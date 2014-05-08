@@ -1,0 +1,52 @@
+#Variable construction for Reading score#
+To assess the readability of each document, we use \textit{Flesch-Kincaid readability tests} which are tests designed to indicate comprehension difficulty when reading a passage of contemporary academic English. We use the \textit {Flesch-Kincaid Grade Level} function in the $R$ package \textit{koRpus} to decide the reading score for each document. The formula is given as below:
+
+\begin{equation}
+grade level=0.39 (\frac{total words}{total sentences}) + 11.8 (\frac{total syllables}{totalwords})-15.59
+\end{equation}
+
+The resulting grade level is a numeric value corresponding to a U.S grade level. Hence a document with a relatively high score is expected to be more sophisticated to read. 
+
+#LDA model explanation#
+With the intuition that each document contains multiple topics, we define a topic to be a distribution over a fixed vocabulary and assume that these topics are defined before the realization of data. Now for each document in the corpus, we generate the words in a $3$-stage process. 
+
+\begin{enumerate}
+\item Randomly draw a distribution over topics
+\item Randomly choose a topic from the distribution over topics 
+\item Randomly choose a word from the corresponding distribution over the vocabulary. 
+\end{enumerate}
+
+In this process, each document exhibits the topics in different proportions (stage $1$); each word in each document is drawn from one of the topics (stage $3$), where the selected topic is chosen from the per-document distribution over topics (stage $2$). 
+
+Let $\theta_{i}$ be the distribution over topics for the $i$th document; $\theta_{i,k}$ is the topic proportion of topic $k$ in document $i$. Let $\phi_{k}$ be a distribution over the vocabulary for the $k$th topic, $t_{i,n}$ be the topic assignment for the $n$th word in document $i$, and $w_{i,n}$ be the $n$th observed word in document $i$. LDA assumes the following process for generating words from a corpus $C$ consisting of $I$ documents each of length $N_i$: 
+
+\begin{enumerate}
+
+\item Choose $\theta_{i}$ from $Dir(\alpha)$, where $i \in \{1,\dots,I\}$and $Dir(\alpha)$ is the Dirichlet distribution for parameter $\alpha$. 
+\item Choose $\phi_{k}$  from $Dir(\eta)$.
+\item For each word $w_{i,n}$ where $n \in \{1,\dots,N_i\}$ and $i \in \{1,\dots,I\}$,
+\begin{itemize}
+\item Choose a topic $t_{i,n}$ from $Multinomial(\theta_{i})$.
+\item Choose  a word $w_{i,n}$ from $Multinomial(\phi_{t(i,n})$.
+\end{itemize}
+\end{enumerate}
+
+
+
+
+
+#Choice of K#
+We decide the optimal number of topics using the measure proposed in the work of \textit{Arun} and \textit{Suresh}. They regard topic models as matrix factorization mechanisms, wherein a given corpus $C$ is split into two matrix factors $M_1=T*W$ and $M_2=D*T$, where $D$ is the number of documents contained in the corpus, $W$ is the size of the fixed vocabulary, and $T$ is the supposedly right number of topics. They propose a measure that computes the symmetric \textit{Kullback-Leibler divergence} of the singluar value distributions of $M_1$ and the distribution of the vector $L*M_2$ where $L$ is a $1*D$ vector containing the lengths of each document in the corpus. They show that under certain conditions the proposed measure consistently falls down and hits a low range for the optimal number of topics and increases again as the number of topics surpasses the threshold. The measure is calculated as following: 
+
+\begin{equation}
+Measure (M_1, M_2) = KL.div(C_{M_1}, C_{M_2}) + KL.div(C_{M_2}, C_{M_1})
+\end{equation}
+
+Where $C_{M_1}$ is the distribution of singular values of $M_1$ and $C_{M_2}$ is the distribution obtained by normalizing the vector $L*M_2$. 
+
+
+#Reference#
+http://www.cs.princeton.edu/~blei/papers/Blei2012.pdf
+http://link.springer.com/chapter/10.1007%2F978-3-642-13657-3_43#page-1
+
+
