@@ -43,7 +43,7 @@ crossvalidate <- function( .model, .data, nfolds ){
     result[[xval_iteration]]$lda <- replicate(Kmax,list())
     for( K in 1:Kmax ){
       
-      result[[xval_iteration]]$lda <- replicate(K,list())
+      result[[xval_iteration]]$lda[[K]] <- replicate(K,list())
       result[[xval_iteration]]$lda[[K]]$fit             <- sweep_k( model, train, K )
       result[[xval_iteration]]$lda[[K]]$simulated_theta <- drawTheta( model, train, result[[K]]$fit )
       result[[xval_iteration]]$lda[[K]]$rmse            <- predict_rmse( model, result[[K]]$fit, result[[K]]$simulated_theta, test )
@@ -55,7 +55,7 @@ crossvalidate <- function( .model, .data, nfolds ){
     result[[xval_iteration]]$stm <- replicate(Kmax,list())
     for( K in 1:Kmax ){
       
-      result[[xval_iteration]]$stm <- replicate(K,list())
+      result[[xval_iteration]]$stm[[K]] <- replicate(K,list())
       result[[xval_iteration]]$stm[[K]]$fit             <- sweep_k( model, train, K )
       result[[xval_iteration]]$stm[[K]]$simulated_theta <- drawTheta( model, train, result[[K]]$fit )
       result[[xval_iteration]]$stm[[K]]$rmse            <- predict_rmse( model, test, result[[K]]$fit, result[[K]]$simulated_theta )
@@ -67,7 +67,7 @@ crossvalidate <- function( .model, .data, nfolds ){
     result[[xval_iteration]]$rstm <- replicate(Kmax,list())
     for( K in 1:Kmax ){
       
-      result[[xval_iteration]]$rstm <- replicate(K,list())
+      result[[xval_iteration]]$rstm[[K]] <- replicate(K,list())
       result[[xval_iteration]]$rstm[[K]]$fit             <- sweep_k( model, train, K )
       result[[xval_iteration]]$rstm[[K]]$simulated_theta <- drawTheta( model, train, result[[K]]$fit )
       result[[xval_iteration]]$rstm[[K]]$rmse            <- predict_rmse( model, test, result[[K]]$fit, result[[K]]$simulated_theta )
