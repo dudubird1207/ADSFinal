@@ -73,7 +73,7 @@ jobs$residency.bin<-as.factor(jobs$residency.bin)
 
 #Online<-read.csv("./address/AddressOriginal.csv",header=T)
 #gisZip<-read.csv("./address/gisZip.csv",header=T)
-gisBoro<-read.csv("./address/gisBoro.csv",header=T)
+gisBoro<-read.csv("gisBoro.csv",header=T)
 
 ##match records
 
@@ -115,15 +115,15 @@ jobs$gisBoro <- gisBoro$ARC_Zone
 
 ##reading score construction
 
-install.packages("koRpus")
+if(!require("koRpus")) install.packages("koRpus")
 library("koRpus")
 jobs$text=paste(jobs$business_title,jobs$civil_service_title,jobs$division_work_unit,jobs$job_description,jobs$minimum_qual_requirements,jobs$preferred_skills)
 
 for (i in 1:length(jobs$text)){
-  writeLines(jobs$text[i], paste("texts/text",i,".txt", sep=""))
+  writeLines(jobs$text[i], paste("text",i,".txt", sep=""))
 }
 
-ll.files <-list.files("texts", pattern="*.txt", full.names=TRUE)
+ll.files <- list.files(".", pattern="text[[:digit:]]+\\.txt", full.names=TRUE)
 ll.tagged <- lapply(ll.files, tokenize, lang="en")
 ll.gradelevel <- lapply(ll.tagged,flesch.kincaid)
 list_fk = lapply(ll.gradelevel, slot, "Flesch.Kincaid")
