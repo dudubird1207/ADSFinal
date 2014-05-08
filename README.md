@@ -2,11 +2,11 @@
 
 ### Pipeline
 ```
-data_processing.R > jobs.Rda
-(optional) exploratory.R > jobs.Rda
-VariableConstruction.R > jobs.Rda
-fix_geocode_mising_data.R > jobs.Rda
-split_train_test.R > jobs.RData
+data_processing.R
+(optional) exploratory.R
+VariableConstruction.R
+fix_geocode_mising_data.R
+drop_duplicates.R
 ("master" model fitting script that calls a script for each model)
 ("master" script for plotting KL divergence and RMSE for each model)
 ```

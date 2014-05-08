@@ -71,34 +71,34 @@ jobs$residency.bin<-as.factor(jobs$residency.bin)
 
 ##geocode the addresses
 
-Online<-read.csv("./address/AddressOriginal.csv",header=T)
-gisZip<-read.csv("./address/gisZip.csv",header=T)
+#Online<-read.csv("./address/AddressOriginal.csv",header=T)
+#gisZip<-read.csv("./address/gisZip.csv",header=T)
 gisBoro<-read.csv("./address/gisBoro.csv",header=T)
 
 ##match records
 
-names(Online)
-Online$desc<-as.character(Online$desc)
-head(Online$desc)
+#names(Online)
+#Online$desc<-as.character(Online$desc)
+#head(Online$desc)
 
 ##extract the zip code info from the online geocodeing results
-x<-str_sub(Online$desc,nchar(Online$desc)-4,nchar(Online$desc))
-i<-str_detect(x,"[[:digit:]]{5}")
-x[!i]<-NA
-Online$zip<-x
+#x<-str_sub(Online$desc,nchar(Online$desc)-4,nchar(Online$desc))
+#i<-str_detect(x,"[[:digit:]]{5}")
+#x[!i]<-NA
+#Online$zip<-x
 
-table(Online$zip)
-length(which(is.na(Online$zip)))  #359
+#table(Online$zip)
+#length(which(is.na(Online$zip)))  #359
 
 ##extract the zip code info from gis geocoding
 
-names(gisZip)
-class(gisZip$gisZip)
-unique(gisZip$gisZip)
-sum(is.na(gisZip$gisZip))  #281
+#names(gisZip)
+#class(gisZip$gisZip)
+#unique(gisZip$gisZip)
+#sum(is.na(gisZip$gisZip))  #281
 
-gisZip$agency<-jobs$agency
-save(gisZip,file="gisZip.Rda")
+#gisZip$agency<-jobs$agency
+#save(gisZip,file="gisZip.Rda")
 
 ##extract the boro info from gis geocoding
 
@@ -110,7 +110,7 @@ sum(is.na(gisBoro$ARC_Zone))
 gisBoro$agency<-jobs$agency
 save(gisBoro,file="gisBoro.Rda")
 
-jobs$gisZip <- gisZip$gisZip
+#jobs$gisZip <- gisZip$gisZip
 jobs$gisBoro <- gisBoro$ARC_Zone
 
 ##reading score construction

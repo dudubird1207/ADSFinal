@@ -62,8 +62,6 @@ cat("Clean the data")
 # 
 # View(jobs2[which(duplicated(jobs2$job_id)),])
 
-jobs <- jobs[!duplicated(jobs$job_id)]
-
 # Correctly code NA in strings
 sapply(jobs,`%in%`,x="NULL")
 system.time(for(i in seq_len(nrow(jobs))){

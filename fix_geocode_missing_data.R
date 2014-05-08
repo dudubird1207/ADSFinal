@@ -3,7 +3,6 @@
 load("jobs.Rda")
 
 repeat_locations <- which(jobs$work_location==jobs$work_location_1)
-na_zip <- which(is.na(gisZip$gisZip))
 na_boro <- which(gisBoro$ARC_Zone %in% c("E","S","T","D","R","K"))
 
 View(jobs$work_location[na_boro])
@@ -18,8 +17,6 @@ jobs$gisBoro[grep("Quee",jobs$work_location)] <- 4 #queens
 jobs$gisBoro[jobs$gisBoro==" "] <- NA
 
 jobs$gisBoro <- factor(jobs$gisBoro)
-
-unique(jobs$gisZip)
 
 save(jobs,file="jobs.Rda")
 
