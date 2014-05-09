@@ -32,6 +32,7 @@ require(FNN)
 #table(jobs.train$level.bin)
 #jobs.train$level.bin<-as.factor(jobs.train$level.bin)
 #####stm
+
 metadata=cbind(jobs$level.bin,jobs$agency.bin)
 metadata=data.frame(metadata)
 out=textProcessor(jobs$text, metadata=metadata,lowercase=TRUE,
@@ -52,6 +53,8 @@ meta=out$meta
 #amc$salary=jobs.train$salary
 #lm2=lm(salary~.,amc)
 ####test
+
+
 std=function(x){if(length(which(is.na(x)))==0) (x-mean(x))/sd(x) else
   (x-mean(x,na.rm=T))/sd(x,na.rm=T)}
 
@@ -59,14 +62,15 @@ word=strsplit(jobs$text," ")
 len=c()
 for (i in 1:length(jobs$text)) {len[i]=length(word[[i]])}
 
-kl_avg=c()
-for (i in seq(5,100,by=5)){
+
+for (i in seq(15,30,by=5)){
   topics=stm(documents=docs,vocab=vocab, K=i,
              prevalence=~jobs$agency.bin+jobs$level.bin,
              content=jobs$agency.bin,
              data=meta)
   write.csv(topics$theta,paste("theta",i,".csv",sep=""),row.names=FALSE)
-  write.csv(topics$mu,paste("mu",i,".csv",sep=""),row.names=FALSE)
+  write.csv(topics$mu$mu,paste("mu",i,".csv",sep=""),row.names=FALSE)
+  write.csv(topics$mu$gamma,paste("gamma",i,".csv",sep=""),row.names=FALSE)
   kl=c()
   for (j in 1:6){
     M1=exp(topics$beta$logbeta[[j]])
@@ -84,3 +88,4 @@ for (i in seq(5,100,by=5)){
 }
 
 write.csv(kl_avg,"KL_avg.csv",row.names=FALSE)
+#
