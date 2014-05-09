@@ -1,0 +1,199 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PROBLEM SET LATEX TEMPLATE FILE
+% DEFINE DOCUMENT STYLE, LOAD PACKAGES
+\documentclass[9pt,notitlepage]{article}		% ADD COMMENTS USING A PERCENT SIGN
+\usepackage{calc}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath, booktabs}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{subfig}
+\usepackage[none]{hyphenat} 
+\usepackage{setspace}
+\usepackage{fullpage}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multicol}
+\usepackage{multirow}
+%\setlength{\parindent}{0in}		% uncomment to remove indent at start of paragraphs
+\usepackage{pdflscape}
+\usepackage[english]{babel}
+\usepackage[pdftex]{hyperref}
+\usepackage{natbib}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphics}
+\usepackage{multirow}
+\usepackage{graphics}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{latexsym}
+\usepackage{rotating}
+\usepackage{setspace}
+\usepackage{layouts} 
+\usepackage[titletoc]{appendix}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+\usepackage[margin=1in]{geometry}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{placeins}
+
+
+% FONTS
+\usepackage[T1]{fontenc}					% always use this no matter what
+
+% uncomment any one of these to see what it does to your font!
+%\usepackage{pxfonts}
+%\usepackage{cmbright}
+%\usepackage{txfonts}
+%\usepackage[adobe-utopia]{mathdesign}
+%\usepackage{kpfonts}
+%\usepackage{lmodern}
+%\usepackage{newtxtext,newtxmath}
+
+
+% DEFINE WHAT GOES INTO YOUR TITLE BEFORE THE DOCUMENT BEGINS
+\title{STAT W4249 - Final Projects}
+\author{Chang Liael Werbin, Rongyao Huang, Yiran Dong}
+\date{05/11/2014}
+
+% below are the useful functions you can use to insert graph, insert R code, adjust spaces, and write equation
+
+%\begin{figure}[ht!]
+%\centering
+%\includegraphics[scale=0.5]{.png}
+%\caption{}
+%\end{figure}
+%\FloatBarrier
+
+%\textbf{R Code:}
+%\begin{lstlisting}[language=R]
+%\end{lstlisting}
+
+% \hspace{0.5cm} \vspace{0.5cm} 
+
+%\begin{equation}
+%\end{equation}
+
+%\noindent
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+\section{Research Motivation}
+Among the many things that haunt a graduate student's mind, finding a job is probably the most important and monstrous. While an ideal job is the intersection of three sets – what one loves, what one is good at, and what the society values – an answer to the third question is enough to guarantee a good pay. So here comes our mundane but vital research question: what features will guarantee you a good pay in the job market?\\
+The next thing we want to consider is how we are going to answer this question. Consider ourselves data scientists, we would say: use data! Ideally, if we can extract features from job requirements and find correlations between these features and the salaries offered, we can have a satisfactory answer to this question.
+\section{Explorative Analysis}
+
+\subsection{Data Description}
+In order to precisely predict the salary of a certain job from its characteristics, we need the data of the salary, job industry, titles and other factors, so we searched online and found it on NYC Open Data.\\
+Our dataset contains 1658 rows and 26 variables; each row looks like below:\\
+Each row represents a specific job post. It contains Job.id, agency, posting type, number of vacancies to be fill, business title, civil service title, title code number, level, salary range (from the lowest salary to the highest salary), salary frequency, work location, division/work unit, job description, minimum quality required, preferred skills, additional information, how to apply, hours/shift, work location, recruitment contact, residence requirement, posting date, post until, posting updated date and process date.\\
+Among them salary range from and salary range to are numeric variables showing the lowest and the highest salary for each posting job; job description, minimum quality requirements are description of a specific position which we expect to extract characteristics of the jobs from.
+\subsection{Data Exploration}
+
+\section{Research Question Refined \& Hypothesis}
+Based on the data set we find, we formalize our research questions as below.
+\begin{itemize}
+\item What features are strong predictors of the salary? There are basically two feature sets: one contains those protowords derived from the linguistic context of job descriptions, the other contains non-linguistic covariates in the data set.
+\end{itemize}
+ \hspace{0.5cm} \vspace{0.3cm} 
+\section{Variable Construction}
+For the dependent variable $salary$, we calculate its mean and bin it into n classes where each matches to a set of jobs.
+
+Besides topics, we found that $agency$, $location$, $residency requirement$, $length of text$ as well as $reading score$ can actually affect the salary.
+\subsection*{Agency}
+In the original dataset we have $39$ agencies, which indicates the $39$ departments posting the hiring posts. In order to give our final regression more degrees of freedom and provide us with more specific results regarding the relationship between industry and salary, we bin the $agency$ into $6$ categories: Finance, Infrastructure, Social Service, Law, Security and IT.
+\subsection*{Location}
+We matched the incomplete location data with NYC address database $NYC Lion$ to get the complete addresses for each post and categorize them as $Manhattan(1)$, $Bronx(2)$, $Brooklyn(3)$, $Queens(4)$ and $State Island(5)$. With the $200+$ unmatched addresses due to the unstructured dataset, we manually categorize them into these 5 boroughs.
+\subsection*{Residency Requirement}
+For $residency requirement$ we have got $35$ different phrases in our original dataset describing whether New York City Residency is needed or not. We used regular expression to convert those $35$ phrases in to $2$ categories, residency required or not.
+\subsection*{Length of Text}
+In each post we have got different length of sentences describing the jobs, requirements as well as preferences. We think the length of the text somehow affects the salary of the job, thus we make the length of this part as a numeric variable, which indicates the length (number of words used) of the ''description'' for each post.
+ \subsection*{Reading Score}
+To assess the readability of each document, we use \textit{Flesch-Kincaid readability tests} which are tests designed to indicate comprehension difficulty when reading a passage of contemporary academic English. We use the \textit {Flesch-Kincaid Grade Level} function in the $R$ package \textit{koRpus} to decide the reading score for each document. The formula is given as below:
+\begin{equation}
+grade level=0.39 (\frac{total words}{total sentences}) + 11.8 (\frac{total syllables}{totalwords})-15.59
+\end{equation}
+The resulting grade level is a numeric value corresponding to a U.S grade level. Hence a document with a relatively high score is expected to be more sophisticated to read. 
+  \hspace{0.5cm} \vspace{0.3cm}
+\section{Theoretical Approaches}
+
+\subsection{Latent Dirichlet Allocation}
+With the intuition that each document contains multiple topics, we define a topic to be a distribution over a fixed vocabulary and assume that these topics are defined before the realization of data. Now for each document in the corpus, we generate the words in a $3$-stage process. 
+\begin{enumerate}
+\item Randomly draw a distribution over topics
+\item Randomly choose a topic from the distribution over topics 
+\item Randomly choose a word from the corresponding distribution over the vocabulary. 
+\end{enumerate}
+In this process, each document exhibits the topics in different proportions (stage $1$); each word in each document is drawn from one of the topics (stage $3$), where the selected topic is chosen from the per-document distribution over topics (stage $2$). 
+Let $\theta_{i}$ be the distribution over topics for the $i$th document; $\theta_{i,k}$ is the topic proportion of topic $k$ in document $i$. Let $\phi_{k}$ be a distribution over the vocabulary for the $k$th topic, $t_{i,n}$ be the topic assignment for the $n$th word in document $i$, and $w_{i,n}$ be the $n$th observed word in document $i$. LDA assumes the following process for generating words from a corpus $C$ consisting of $I$ documents each of length $N_i$: 
+
+\begin{enumerate}
+
+\item Choose $\theta_{i}$ from $Dir(\alpha)$, where $i \in \{1,\dots,I\}$and $Dir(\alpha)$ is the Dirichlet distribution for parameter $\alpha$. 
+\item Choose $\phi_{k}$  from $Dir(\eta)$.
+\item For each word $w_{i,n}$ where $n \in \{1,\dots,N_i\}$ and $i \in \{1,\dots,I\}$,
+\begin{itemize}
+\item Choose a topic $t_{i,n}$ from $Multinomial(\theta_{i})$.
+\item Choose  a word $w_{i,n}$ from $Multinomial(\phi_{t(i,n})$.
+\end{itemize}
+\end{enumerate}
+\begin{figure}[ht!]
+\centering
+\includegraphics[scale=0.5]{LDA.png}
+\caption{Plate Diagram for the Latent Dirichlet Allocation}
+\end{figure}
+\FloatBarrier
+
+\subsection{Structural Topic Model}
+The Structural Topic Model (STM) enables the discovery of topics and the estimation of their relationship to document meta-data by providing a general way to corporate corpus  structure or document meta-data into the standard topics model.\\
+The $STM$ model accommodates corpus structure through document-level covariates affecting topical prevalence and/or topical content by specifying the priors as generalized linear models.\\
+The $STM$ model specifies two design matrices of covariates for topic prevalence and topical content where each row defines a vector of covariates for a given document. $X$ represents the topic prevalence matrix while $Z$ represents the topical content matrix.\\
+The topic prevalence component allows the expected document-topic proportions to vary by covariates $X$ rather than arising from a single shared prior. We model the mean vector of the Logistic Normal as a simple linear model model such that $\mu_i=X_i\gamma_i$ giving $\gamma$ a regularizing prior to avoid over fitting. Intuitively this takes the form of a normal multivariate linear model with shared covariance parameters. For topic content, it used $Z$ instead. The $\kappa$ is a given sparsity inducing priors so that topic and covariate effects represent sparse deviations from the corpus-wide empirical word frequency.
+\begin{figure}[ht!]
+\centering
+\includegraphics[scale=0.5]{STM.png}
+\caption{Plate Diagram for the Structural Topic Model}
+\end{figure}
+\FloatBarrier
+
+\subsection{Regression Supervised Structural Topic Model}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[scale=0.5]{RegSup.png}
+\caption{Plate Diagram for the Regression Supervised STM}
+\end{figure}
+\FloatBarrier
+ \hspace{0.5cm} \vspace{0.5cm}
+\section{Model Selection \& Model Assessment}
+\subsection{KL Divergence: the Choice of K within Each Model}
+We decide the optimal number of topics using the measure proposed in the work of \textit{Arun} and \textit{Suresh}. They regard topic models as matrix factorization mechanisms, wherein a given corpus $C$ is split into two matrix factors $M_1=T*W$ and $M_2=D*T$, where $D$ is the number of documents contained in the corpus, $W$ is the size of the fixed vocabulary, and $T$ is the supposedly right number of topics. They propose a measure that computes the symmetric \textit{Kullback-Leibler divergence} of the singluar value distributions of $M_1$ and the distribution of the vector $L*M_2$ where $L$ is a $1*D$ vector containing the lengths of each document in the corpus. They show that under certain conditions the proposed measure consistently falls down and hits a low range for the optimal number of topics and increases again as the number of topics surpasses the threshold. The measure is calculated as following: 
+
+\begin{equation}
+Measure (M_1, M_2) = KL.div(C_{M_1}, C_{M_2}) + KL.div(C_{M_2}, C_{M_1})
+\end{equation}
+
+Where $C_{M_1}$ is the distribution of singular values of $M_1$ and $C_{M_2}$ is the distribution obtained by normalizing the vector $L*M_2$. 
+
+\subsection{Cross Validation: which Model Performs the Best}
+
+ \hspace{0.5cm} \vspace{0.3cm}
+\section{Discussion \& Visualization}
+ \hspace{0.5cm} \vspace{0.3cm}
+\section{Limitation}
+\section{Reference}
+\begin{enumerate}
+\item http://www.cs.princeton.edu/~blei/papers/Blei2012.pdf
+\item http://link.springer.com/chapter/10.1007%2F978-3-642-13657-3_43#page-1
+\end{enumerate}
+\end{document}
