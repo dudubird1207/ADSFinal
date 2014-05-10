@@ -26,7 +26,10 @@ colnames(r40)[1]="salary"
 topic40l=lm(log(salary)~.,r40 )
 crossvali40=cvFit(topic40l, data = r40, x = NULL,y=log(r40$salary),
                   cost =mspe, K = 5 )
-####
+####logistic
+r20bin=cbind(jobs$salary.bin,log20)
+colnames(r20bin)[1]="salary"
+logit20= glm(salary~.,data=r20bin,family=binomial)
 
 
 
