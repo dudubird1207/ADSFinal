@@ -1,14 +1,15 @@
 #split dataset
+jobs=subset(jobs,salary<300000)
+jobs <- cbind(jobs, salary.bin=cut(jobs$salary, breaks=c(9026,68200,180000)))
+topic20=read.csv("theta20.csv")
+log20=log(topic20[-271,])
+jobs=cbind(jobs,log20)
 select=seq(1,864,by=1)
 set.seed=1
 jobstrain=sample(select,576)
 jobst=jobs[jobstrain,]
 jobsv=jobs[-jobstrain,]
 ###regression
-jobs=subset(jobs,salary<300000)
-jobs <- cbind(jobs, salary.bin=cut(jobs$salary, breaks=c(9026,68200,180000)))
-topic20=read.csv("theta20.csv")
-log20=log(topic20[-271,])
 salary.bin=jobs$salary.bin
 nsalary.bin=as.numeric(salary.bin)
 nsalary.bin[nsalary.bin==1]=0
