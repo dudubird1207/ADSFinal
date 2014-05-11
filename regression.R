@@ -1,36 +1,50 @@
-#regression
-topicpro=read.csv("theta20.csv")
-dim(topicpro)
-jobsf=cbind(jobs,topicpro)
-View(jobsf)
-ols20=cbind(jobs$annual_salary_midpoint,topicpro)
-topic20=lm(jobs$annual_salary_midpoint~., topicpro)
-log20=log(topicpro)
-topic20l=lm(log(jobs$annual_salary_midpoint)~., log20)
-topic50=read.csv("theta50.csv")
-log50=log(topic50)
-topic50l=lm(log(jobs$annual_salary_midpoint)~., log50)
-####cross validation
-r20=cbind(jobs$annual_salary_midpoint,log20)
-colnames(r20)[1]="salary"
-topics20l=lm(log(salary)~.,r20)
-install.packages("cvTools")
-library(cvTools)
-crossvali20=cvFit(topics20l, data = r20, x = NULL,y=log(r20$salary),
-       cost =mspe, K = 5 )
-######
-topic40=read.csv("theta40.csv")
-log40=log(topic40)
-r40=cbind(jobs$annual_salary_midpoint,log40)
-colnames(r40)[1]="salary"
-topic40l=lm(log(salary)~.,r40 )
-crossvali40=cvFit(topic40l, data = r40, x = NULL,y=log(r40$salary),
-                  cost =mspe, K = 5 )
-####logistic
-r20bin=cbind(jobs$salary.bin,log20)
-colnames(r20bin)[1]="salary"
-logit20= glm(salary~.,data=r20bin,family=binomial)
+#split dataset
+select=seq(1,864,by=1)
+set.seed=1
+jobstrain=sample(select,576)
+jobst=jobs[jobstrain,]
+jobsv=jobs[-jobstrain,]
+###regression
+jobs=subset(jobs,salary<300000)
+jobs <- cbind(jobs, salary.bin=cut(jobs$salary, breaks=c(9026,68200,180000)))
+topic20=read.csv("theta20.csv")
+log20=log(topic20[-271,])
+salary.bin=jobs$salary.bin
+nsalary.bin=as.numeric(salary.bin)
+nsalary.bin[nsalary.bin==1]=0
+nsalary.bin[nsalary.bin==2]=1
+log20=data.frame(log20)
+log20=log20[-271,]
+row.names(log20) <- NULL
+log20$salary.bin=nsalary.bin
+data=log20
+###ols
+olstopic20=lm((salary.bin)~., data)
+###logit
+logit20= glm(salary.bin~.,data=data,family=binomial)
+
+#cross validation
+#install.packages("cvTools")
+#install.packages("boot")
+#library(cvTools)
+#library(boot)
+#cvols=cvFit(olstopic20, data = data, x = NULL,y=data$salary.bin, cost =mspe, K = 5 )
+#cvols2=cv.glm(data=data,glmfit=olstopic20,K=5)
 
 
+###validation
+install.packages("caret")
+install.packages("rknn")
+install.packages("e1071")
+library(e1071)
+library(ggplot2)
+library(caret)
+library(rknn)
+#accuracy
+
+#accuracy logit
+prob=predict(logit20,type=c("response"))
+pred=ifelse(prob>=0.5,1,0)
+confusionMatrix(pred,data[,21])
 
 
