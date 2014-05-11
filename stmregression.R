@@ -1,13 +1,14 @@
 #split dataset
 jobs=subset(jobs,salary<300000)
 jobs <- cbind(jobs, salary.bin=cut(jobs$salary, breaks=c(9026,68200,180000)))
+setwd("/Users/amandaliu/Desktop/the Folder/Courses/Applied Data Science/FINAL/ADSFinal")
 topic20=read.csv("theta20.csv")
 log20=log(topic20[-271,])
 jobs=cbind(jobs,log20)
 salary.bin=jobs$salary.bin
 jobs$nsalary.bin=as.numeric(salary.bin)
-jobs$nsalary.bin[nsalary.bin==1]=0
-jobs$nsalary.bin[nsalary.bin==2]=1
+jobs$nsalary.bin[jobs$nsalary.bin==1]=0
+jobs$nsalary.bin[jobs$nsalary.bin==2]=1
 select=seq(1,864,by=1)
 set.seed=1
 jobstrain=sample(select,576)
@@ -33,9 +34,7 @@ colnames(datav)[1]="salary.bin"
 
 
 ###validation
-install.packages("caret")
-install.packages("rknn")
-install.packages("e1071")
+
 library(e1071)
 library(ggplot2)
 library(caret)
@@ -87,7 +86,7 @@ confusionMatrix(pred,fdatav[,1])
 ##random forest
 data$salary.bin=as.factor(data$salary.bin)
 datav$salary.bin=as.factor(datav$salary.bin)
-install.packages("randomForest")
+#install.packages("randomForest")
 library(randomForest)
 rf=randomForest(salary.bin~.,data=data,importance=TRUE,
                 proximity=TRUE,keep.forest=TRUE)
@@ -108,3 +107,5 @@ confusionMatrix(fpred,fdatav[,1])
 #Accuracy : 0.8438
 #Sensitivity : 0.8600   
 #Specificity : 0.8261
+
+im=importance(frf)
